@@ -1,0 +1,11 @@
+$text-position : 0 auto;
+
+.product-container{
+  .product-image{
+    margin: $text-position;
+    display: inline-block;
+  }
+  .product-info{
+    margin:$text-position;
+  }
+}
