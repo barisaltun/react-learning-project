@@ -1,36 +1,94 @@
-import React, { Component } from 'react';
-class ProductContainer extends Component {
-    constructor(props) {
+import React from "react";
+import {getProducts} from "../actions/requests";
+import Product from "./product";
+
+class ProductContainer extends React.Component{
+    constructor(props){
         super(props);
         this.state = {
-            product: {
-                productId: "",
-                productName: "",
-                unitPrice: "",
-            }
+            products: [
+                {
+                    productId: "",
+                    productName: "",
+                    unitPrice: "",
+                    unitsInStock: ""
+                }
+            ],
+            _products: [
+                {
+                    productId: "",
+                    productName: "",
+                    unitPrice: "",
+                    unitsInStock: ""
+                }
+            ],
+            filterText: "",
+            filterPrice: 0,
+            filterPriceOperator: "none",
+            loading: true
         };
-    };
+
+        this.filter = this.filter.bind(this);
+    }
     componentDidMount() {
-        this.state = this.setState({
-            product : this.props.product
+        getProducts(response => {
+            this.setState({
+                _products: response,
+                products:response,
+                filterText: this.props.filterParams.filterText,
+                filterPrice: this.props.filterParams.filterPrice,
+                filterPriceOperator: this.props.filterParams.filterPriceOperator,
+                loading: false
+            }, () => {
+                this.filter(this.props.filterParams);
+            });
+        });
+    };
+
+    componentWillReceiveProps(newProps){
+        if(this.props.filterParams !== newProps.filterParams){
+            this.filter(newProps.filterParams);
+        }
+    }
+
+    filter(filterParams){
+        let searchTerm  =  filterParams.filterText === null ? this.state.filterText : filterParams.filterText;
+        let priceFilter = filterParams.filterPrice || this.state.filterPrice;
+        let priceOperator = filterParams.filterPriceOperator || this.state.filterPriceOperator;
+
+        //Search
+        let filteredProducts = this.state._products.filter(product => {
+            return product.productName.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+        });
+
+        //Price
+        filteredProducts = filteredProducts.filter((product) => {
+            if(priceOperator === "none" || !priceOperator){
+                return product;
+            }else if(priceOperator === "less" ){
+                return product.unitPrice < priceFilter;
+            }else{
+               return product.unitPrice > priceFilter;
+            }
+        });
+
+        this.setState({
+            products: filteredProducts,
+            filterText: searchTerm,
+            filterPrice: priceFilter,
+            filterPriceOperator: priceOperator
         });
     }
-    render() {
-        return (
-            <div className="product-container" key={this.state.product.productId}>
-                <a>
-                    <div className="product-image">
-                        <img alt={this.state.product.productName} src="https://place-hold.it/200x300"/>
-                    </div>
-                    <div className="product-info">
-                        <div className="name">{this.state.product.productName}</div>
-                        <div className="price">{this.state.product.unitPrice}</div>
-                    </div>
-                </a>
-            </div>
 
-        );
+    render(){
+        return this.state.loading ? "MOTHERFUCKER" : <div className={"listed-container"}>
+            {
+                this.state.products.map((product) => {
+                    return <Product {...product} key={product.productId} />
+                })
+            }
+        </div>
     }
 }
 
-export default ProductContainer;
+export default  ProductContainer;

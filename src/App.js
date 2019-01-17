@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import './styles/a.scss';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import SliderListing from "./components/slider-listing";
 import ListView from "./components/list-view";
 
 class App extends Component {
@@ -36,7 +35,6 @@ class App extends Component {
                 </span>
             </nav>
 
-            <Route path="/slider" render={() => <SliderListing action={this.childHandler} />} />
             <Route path="/listed/"  render={() => <ListView action={this.childHandler}/>} />
           </div>
         </Router>
