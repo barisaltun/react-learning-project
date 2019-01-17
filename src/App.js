@@ -18,7 +18,6 @@ class App extends Component {
         this.childHandler = this.childHandler.bind(this);
     }
     childHandler(dataFromChild) {
-        // log our state before and after we updated it
         this.setState({
             data: dataFromChild
         });
@@ -28,15 +27,13 @@ class App extends Component {
       <div className="App">
         <Router>
           <div>
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/slider">Slider</Link>
-                </li>
-                <li>
-                  <Link to="/listed">Users</Link>
-                </li>
-              </ul>
+            <nav className={"navigation"}>
+                <span className={"nav-element"}>
+                    <Link to="/slider">Slider</Link>
+                </span>
+                <span className={"nav-element"}>
+                  <Link to="/listed">Listed</Link>
+                </span>
             </nav>
 
             <Route path="/slider" render={() => <SliderListing action={this.childHandler} />} />

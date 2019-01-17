@@ -1,7 +1,19 @@
 import React, { Component } from 'react';
 import {getProducts} from "../actions/requests";
 import Slider from "react-slick";
+import ProductContainer from "./product-container";
+
+const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 1
+};
+
 class sliderListing extends Component {
+    constructor(props){
+        super(props);
+    }
     state = {
         products :[
             {
@@ -20,30 +32,14 @@ class sliderListing extends Component {
         });
     };
     render() {
-        let settings = {
-            infinite: true,
-            speed: 500,
-            slidesToShow: 5,
-            slidesToScroll: 1
-        };
         return (
-            <div>
+            <div className={"slider-listing"}>
                 <Slider {...settings}>
-                {this.state.products.map(product =>
-                    <div className="product-container" key={product.productId}>
-                        <a onClick={()=> this.props.action({product})}>
-                        <div className="product-image">
-                                <img alt={product.productName} src="https://place-hold.it/200x300"/>
-                            </div>
-                            <div className="product-info">
-                                <div className="name">{product.productName}</div>
-                                <div className="price">{product.unitPrice}</div>
-                            </div>
-                        </a>
-                    </div>
-                )}
+                    {this.state.products.map(product =>
+                        <ProductContainer key={product.productId} product={product}/>
+                    )}
                 </Slider>
-                </div>
+            </div>
         );
     }
 }
