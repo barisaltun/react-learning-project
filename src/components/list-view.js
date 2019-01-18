@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {getProducts} from "../actions/requests";
 import ProductContainer from "./product-container";
 import Header from "./header";
 
@@ -12,7 +11,6 @@ class ListView extends Component {
             filterPriceOperator: "none"
         };
         this.onChangeFilterText=this.onChangeFilterText.bind(this);
-        this.onClickPriceFilter=this.onClickPriceFilter.bind(this);
         this.onReset = this.onReset.bind(this);
     }
 
@@ -22,13 +20,7 @@ class ListView extends Component {
         });
     };
 
-    onClickPriceFilter(filterPriceOperator, filterPrice, event){
-        event.preventDefault();
-        this.setState({
-            filterPriceOperator,
-            filterPrice
-        });
-    }
+
 
     onReset(){
         this.setState({
@@ -42,13 +34,7 @@ class ListView extends Component {
         return (
             <div>
                 <Header onSearchTermChange={this.onChangeFilterText} onClickPriceFilter={this.onClickPriceFilter} onReset={this.onReset}/>
-                <ProductContainer
-                    filterParams={{
-                        filterText: this.state.filterText,
-                        filterPrice: this.state.filterPrice,
-                        filterPriceOperator: this.state.filterPriceOperator
-                    }}
-                    />
+                <ProductContainer/>
             </div>
         );
     }

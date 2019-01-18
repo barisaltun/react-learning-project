@@ -1,6 +1,7 @@
 import React from "react";
 import {getProducts} from "../actions/requests";
 import Product from "./product";
+import {connect} from "react-redux";
 
 class ProductContainer extends React.Component{
     constructor(props){
@@ -22,9 +23,6 @@ class ProductContainer extends React.Component{
                     unitsInStock: ""
                 }
             ],
-            filterText: "",
-            filterPrice: 0,
-            filterPriceOperator: "none",
             loading: true
         };
 
@@ -35,26 +33,32 @@ class ProductContainer extends React.Component{
             this.setState({
                 _products: response,
                 products:response,
-                filterText: this.props.filterParams.filterText,
-                filterPrice: this.props.filterParams.filterPrice,
-                filterPriceOperator: this.props.filterParams.filterPriceOperator,
                 loading: false
             }, () => {
-                this.filter(this.props.filterParams);
+                this.filter(
+                    {
+                        filterPrice:this.props.filterPrice,
+                        filterPriceOperator:this.props.filterPriceOperator,
+                        filterText: ""
+                    });
             });
         });
     };
 
     componentWillReceiveProps(newProps){
-        if(this.props.filterParams !== newProps.filterParams){
-            this.filter(newProps.filterParams);
+        if(this.props.filterPrice !== newProps.filterPrice){
+            this.filter({
+                filterPrice:newProps.filterPrice,
+                filterPriceOperator:newProps.filterPriceOperator,
+                filterText: ""
+            });
         }
     }
 
     filter(filterParams){
-        let searchTerm  =  filterParams.filterText === null ? this.state.filterText : filterParams.filterText;
-        let priceFilter = filterParams.filterPrice || this.state.filterPrice;
-        let priceOperator = filterParams.filterPriceOperator || this.state.filterPriceOperator;
+        let searchTerm  =  filterParams.filterText;
+        let priceFilter = filterParams.filterPrice;
+        let priceOperator = filterParams.filterPriceOperator;
 
         //Search
         let filteredProducts = this.state._products.filter(product => {
@@ -90,5 +94,10 @@ class ProductContainer extends React.Component{
         </div>
     }
 }
-
-export default  ProductContainer;
+const mapStateToProps = (state) => {
+    return {
+        filterPrice: state.filter.filterPrice,
+        filterPriceOperator: state.filter.filterPriceOperator
+    }
+};
+export default connect(mapStateToProps) (ProductContainer);
