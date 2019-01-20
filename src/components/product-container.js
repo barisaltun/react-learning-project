@@ -39,20 +39,18 @@ class ProductContainer extends React.Component{
                     {
                         filterPrice:this.props.filterPrice,
                         filterPriceOperator:this.props.filterPriceOperator,
-                        filterText: ""
+                        filterText: this.props.filterText
                     });
             });
         });
     };
 
     componentWillReceiveProps(newProps){
-        if(this.props.filterPrice !== newProps.filterPrice){
             this.filter({
                 filterPrice:newProps.filterPrice,
                 filterPriceOperator:newProps.filterPriceOperator,
-                filterText: ""
+                filterText: newProps.filterText
             });
-        }
     }
 
     filter(filterParams){
@@ -97,7 +95,8 @@ class ProductContainer extends React.Component{
 const mapStateToProps = (state) => {
     return {
         filterPrice: state.filter.filterPrice,
-        filterPriceOperator: state.filter.filterPriceOperator
+        filterPriceOperator: state.filter.filterPriceOperator,
+      filterText: state.search.searchTerm
     }
 };
 export default connect(mapStateToProps) (ProductContainer);

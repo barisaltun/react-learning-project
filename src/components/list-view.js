@@ -10,15 +10,9 @@ class ListView extends Component {
             filterPrice: 0,
             filterPriceOperator: "none"
         };
-        this.onChangeFilterText=this.onChangeFilterText.bind(this);
         this.onReset = this.onReset.bind(this);
     }
 
-    onChangeFilterText(e){
-        this.setState({
-            filterText: e.target.value
-        });
-    };
 
 
 
@@ -33,7 +27,7 @@ class ListView extends Component {
     render() {
         return (
             <div>
-                <Header onSearchTermChange={this.onChangeFilterText} onClickPriceFilter={this.onClickPriceFilter} onReset={this.onReset}/>
+                <Header onSearchTermChange={this.onChangeFilterText} onClickPriceFilter={this.sonClickPriceFilter} onReset={this.onReset}/>
                 <ProductContainer/>
             </div>
         );

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {onClickPriceFilter} from "../actions/filterAction";
+import {onChangeFilterText} from "../actions/searchAction";
 import {connect} from "react-redux";
 
 class Header extends Component {
@@ -17,12 +18,15 @@ class Header extends Component {
         event.preventDefault();
         this.props.onClickPriceFilter(filterPriceOperator,filterPrice);
     }
+  onChangeFilterText(e){
+      this.props.onChangeFilterText(e.target.value);
+  }
 
     render() {
         return (
            <div>
                <input
-                   onChange={this.props.onSearchTermChange}
+                   onChange={this.onChangeFilterText.bind(this)}
                    name={"filter"}
                    id={"filter"}
                    placeholder={"Filter by name"}
@@ -37,6 +41,7 @@ class Header extends Component {
     }
 }
 const mapDispatchToProps = {
-    onClickPriceFilter : onClickPriceFilter
+    onClickPriceFilter : onClickPriceFilter,
+    onChangeFilterText : onChangeFilterText
 };
 export default connect(null, mapDispatchToProps)(Header);
