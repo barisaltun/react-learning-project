@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ProductContainer from "./product-container";
-import Header from "./header";
+import HeaderContainer from "./header-container";
 
 class ListView extends Component {
     constructor(props) {
@@ -27,7 +27,7 @@ class ListView extends Component {
     render() {
         return (
             <div>
-                <Header onSearchTermChange={this.onChangeFilterText} onClickPriceFilter={this.sonClickPriceFilter} onReset={this.onReset}/>
+                <HeaderContainer onSearchTermChange={this.onChangeFilterText} onClickPriceFilter={this.onClickPriceFilter} onReset={this.onReset}/>
                 <ProductContainer/>
             </div>
         );

@@ -94,9 +94,9 @@ class ProductContainer extends React.Component{
 }
 const mapStateToProps = (state) => {
     return {
-        filterPrice: state.filter.filterPrice,
-        filterPriceOperator: state.filter.filterPriceOperator,
-      filterText: state.search.searchTerm
+    filterPrice: state.filter.filterPrice,
+    filterPriceOperator: state.filter.filterPriceOperator,
+    filterText: state.search.searchTerm
     }
 };
 export default connect(mapStateToProps) (ProductContainer);

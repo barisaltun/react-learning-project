@@ -5,7 +5,7 @@ export function onChangeFilterText(searchTerm){
     return {
         type:SEARCH_KEYWORD,
         payload:{
-            searchTerm
+            searchTerm:searchTerm.target.value
         }
     }
 };
